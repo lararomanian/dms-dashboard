@@ -1,4 +1,4 @@
-# global-ime-capital-dashboard
+# dms-dashboard
 
 ## Project setup
 ```
