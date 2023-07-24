@@ -1,0 +1,77 @@
+{
+  "name": "gwt",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "node-sass": "node-sass --output-style compressed -o dist/css src/scss"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.9.3",
+    "ag-grid-community": "^27.3.0",
+    "ag-grid-vue": "^27.3.0",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.0",
+    "chart.js": "^3.7.1",
+    "ckeditor4-vue": "^2.1.1",
+    "core-js": "^3.6.5",
+    "laravel-permission-to-vuejs": "^2.0.5",
+    "nepali-date": "^0.1.3",
+    "nepali-date-converter": "^3.3.1",
+    "node-sass": "^6.0.1",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "serve": "^11.3.2",
+    "slick-carousel": "^1.8.1",
+    "v-nepalidatepicker": "^1.2.4",
+    "vue": "^2.6.11",
+    "vue-axios": "^3.4.1",
+    "vue-chartjs": "^4.0.4",
+    "vue-class-component": "^7.2.6",
+    "vue-ellipse-progress": "^1.3.1",
+    "vue-fragment": "^1.5.2",
+    "vue-multiselect": "^2.1.6",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.4.6",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-toastification": "^1.7.14",
+    "vue2-circle-progress": "^1.2.3",
+    "vue2-scrollspy": "^2.3.1",
+    "vuejs-paginate": "^2.1.0",
+    "vuex": "^3.6.2",
+    "vuex-persist": "^3.1.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass-loader": "^10.0.2",
+    "style-resources-loader": "^1.4.1",
+    "vue-template-compiler": "^2.6.11",
+    "vuedraggable": "^2.24.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
