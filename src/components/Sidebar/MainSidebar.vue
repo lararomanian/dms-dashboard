@@ -49,61 +49,11 @@ export default {
           guard: "home",
           hasSub: false,
         },
-
         {
-          title: "Carousel & PopUp",
-          name: 'CarouselPopUp',
-          hasSub: true,
-          subMenu: [
-            {
-              innerTitle: "PopUp",
-              guard: "popup",
-              link: "/popup",
-            },
-            {
-              innerTitle: "Carousel",
-              guard: "carousel",
-              link: "/carousel",
-            },
-          ],
-        },
-
-        {
-          title: "About Us",
-          name: 'AboutUs',
-          hasSub: true,
-          subMenu: [
-            {
-              innerTitle: "Member",
-              guard: "member",
-              link: "/member",
-            },
-
-          ],
-        },
-
-        {
-          title: "Downloads",
-          name: 'Downloads',
-          hasSub: true,
-          subMenu: [
-            {
-              innerTitle: "Categories",
-              link: "/download-category",
-              guard: "downloadcategory",
-            },
-            {
-              innerTitle: "Download",
-              link: "/download",
-              guard: "download",
-            },
-          ],
-        },
-        {
-          title: "Menus",
-          link: "/menus",
+          title: "Projects",
+          link: "/projects",
           hasSub: false,
-          guard: "menu",
+          guard: "project"
         },
         {
           title: "News & Notices",
@@ -126,31 +76,6 @@ export default {
               guard: "notice",
             },
           ],
-        },
-
-        {
-          title: "Footer",
-          name: "Footer",
-          hasSub: true,
-          subMenu: [
-            {
-              innerTitle: "Footer Link",
-              link: "/footer-links",
-              guard: "footerlink",
-            },
-
-            {
-              innerTitle: "Office Information",
-              link: "/office-information",
-              guard: "officeinformation",
-            },
-          ],
-        },
-        {
-          title: "Complaints",
-          link: "/complaint",
-          hasSub: false,
-          guard: "home",
         },
         {
           title: "Role Management",
@@ -181,12 +106,12 @@ export default {
           hasSub: false,
           guard: "user",
         },
-        {
-          title: "Activity Log",
-          link: "/activity",
-          hasSub: false,
-          guard: "activity",
-        },
+        // {
+        //   title: "Activity Log",
+        //   link: "/activity",
+        //   hasSub: false,
+        //   guard: "activity",
+        // },
       ],
     };
   },
