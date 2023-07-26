@@ -10,6 +10,7 @@ import RoleSetup from "@/views/RoleSetup/index.vue";
 import UserRole from "@/views/UserRole/index.vue";
 import Activity from "@/views/Activity/index.vue";
 import Project from "@/views/Project/index.vue";
+import ProjectFolders from "@/views/ProjectFolders/index.vue";
 
 import { store } from "../store.js";
 
@@ -90,6 +91,13 @@ const router = new Router({
           beforeEnter: ifAuthorized,
           meta: { guard: "project" },
         },
+        {
+          path: "/projects/:id",
+          name: "Project",
+          component: ProjectFolders,
+          beforeEnter: ifAuthorized,
+          meta: { guard: "project" },
+        }
       ],
     },
     {

@@ -51,11 +51,22 @@ export default {
           hasSub: false,
         },
         {
-          title: "Projects",
+          title: "Projects Management",
+          hasSub: false,
           link: "/projects",
+          guard: "project",
+        },
+        {
+          title: "Projects",
           hasSub: true,
           guard: "project",
-          subMenu: [],
+          subMenu: [
+            {
+              innerTitle: "Project Management",
+              link: "/projects",
+              guard: "project",
+            }
+          ],
         },
         {
           title: "News & Notices",
@@ -166,21 +177,20 @@ export default {
       }
     },
 
-    // Fetch folders for a specific project ID
     async fetchFolders(projectId) {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/folders/${projectId}`); // Replace with your API endpoint for fetching folders
+        const response = await axios.get(`http://127.0.0.1:8000/api/folders/${projectId}`);
         if (response.status === 200) {
           const folders = response.data.data;
-          return folders.map((folder) => {
+          return await Promise.all(folders.map(async (folder) => {
             return {
               innerTitle: folder.name,
               link: `/folders/${folder.id}`,
               guard: "project",
-              hasSub: true, // Assuming the same guard for all folder links
-              subMenu: this.fetchSubfolders(folder.id), // Fetch subfolders recursively
+              hasSub: true,
+              subMenu: await this.fetchSubfolders(folder.subfolders), // Fetch subfolders recursively
             };
-          });
+          }));
         }
       } catch (error) {
         console.error(`Failed to fetch folders for project ID ${projectId}`, error);
@@ -188,26 +198,17 @@ export default {
       }
     },
 
-    // Recursively fetch subfolders for a specific folder ID
-    async fetchSubfolders(folderId) {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/folders/${folderId}`); // Replace with your API endpoint for fetching subfolders
-        if (response.status === 200) {
-          const subfolders = response.data.data.subfolders;
-          return subfolders.map((subfolder) => {
-            return {
-              innerTitle: subfolder.name,
-              link: `/folders/${subfolder.id}`,
-              guard: "project",
-              hasSub: true, // Assuming the same guard for all subfolder links
-              subMenu: this.fetchSubfolders(subfolder.id), // Fetch sub-subfolders recursively
-            };
-          });
-        }
-      } catch (error) {
-        console.error(`Failed to fetch subfolders for folder ID ${folderId}`, error);
-        return [];
-      }
+    async fetchSubfolders(folders) {
+
+      return (folders.map(async (folder) => {
+        return {
+          innerTitle: folder.name,
+          link: `/folders/${folder.id}`,
+          guard: "project",
+          hasSub: true,
+          subMenu: await this.fetchSubfolders(folder.subfolders), // Fetch subfolders recursively
+        };
+      }));
     },
   },
   created() {
