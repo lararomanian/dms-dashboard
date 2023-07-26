@@ -35,6 +35,7 @@
 
 <script>
 // import FlexLayout from "../Layout/FlexLayout.vue";
+import axios from 'axios';
 import AbsoluteLayout from "../Layout/AbsoluteLayout.vue";
 export default {
   name: "AppSidebar",
@@ -52,8 +53,9 @@ export default {
         {
           title: "Projects",
           link: "/projects",
-          hasSub: false,
-          guard: "project"
+          hasSub: true,
+          guard: "project",
+          subMenu: [],
         },
         {
           title: "News & Notices",
@@ -140,6 +142,76 @@ export default {
         );
       }
     },
+    // Fetch the dynamic subMenu items for "Projects" from the API
+    async fetchProjectsSubMenu() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/projects');
+        if (response.status === 200) {
+          const projects = response.data.data;
+          const subMenu = await Promise.all(projects.map(async (project) => {
+            const folders = await this.fetchFolders(project.id);
+
+            console.log("folders", folders);
+            return {
+              innerTitle: project.name,
+              link: `/projects/${project.id}`,
+              guard: "project",
+              subMenu: folders,
+            };
+          }));
+          this.menuList.find((item) => item.title === "Projects").subMenu = subMenu;
+        }
+      } catch (error) {
+        console.error('Failed to fetch projects subMenu', error);
+      }
+    },
+
+    // Fetch folders for a specific project ID
+    async fetchFolders(projectId) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/folders/${projectId}`); // Replace with your API endpoint for fetching folders
+        if (response.status === 200) {
+          const folders = response.data.data;
+          return folders.map((folder) => {
+            return {
+              innerTitle: folder.name,
+              link: `/folders/${folder.id}`,
+              guard: "project",
+              hasSub: true, // Assuming the same guard for all folder links
+              subMenu: this.fetchSubfolders(folder.id), // Fetch subfolders recursively
+            };
+          });
+        }
+      } catch (error) {
+        console.error(`Failed to fetch folders for project ID ${projectId}`, error);
+        return [];
+      }
+    },
+
+    // Recursively fetch subfolders for a specific folder ID
+    async fetchSubfolders(folderId) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/folders/${folderId}`); // Replace with your API endpoint for fetching subfolders
+        if (response.status === 200) {
+          const subfolders = response.data.data.subfolders;
+          return subfolders.map((subfolder) => {
+            return {
+              innerTitle: subfolder.name,
+              link: `/folders/${subfolder.id}`,
+              guard: "project",
+              hasSub: true, // Assuming the same guard for all subfolder links
+              subMenu: this.fetchSubfolders(subfolder.id), // Fetch sub-subfolders recursively
+            };
+          });
+        }
+      } catch (error) {
+        console.error(`Failed to fetch subfolders for folder ID ${folderId}`, error);
+        return [];
+      }
+    },
+  },
+  created() {
+    this.fetchProjectsSubMenu(); // Call the method to fetch the dynamic subMenu for "Projects" on component creation
   },
 };
 </script>
