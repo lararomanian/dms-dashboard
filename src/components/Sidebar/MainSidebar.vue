@@ -69,26 +69,10 @@ export default {
           ],
         },
         {
-          title: "News & Notices",
-          name: 'NewNotices',
-          hasSub: true,
-          subMenu: [
-            {
-              innerTitle: "News",
-              link: "/news",
-              guard: "news",
-            },
-            {
-              innerTitle: "NoticeCategory",
-              link: "/notice-category",
-              guard: "noticecategory",
-            },
-            {
-              innerTitle: "Notice",
-              link: "/notice",
-              guard: "notice",
-            },
-          ],
+          title: "Document Management",
+          hasSub: false,
+          link: "/documents",
+          guard: "project",
         },
         {
           title: "Role Management",
