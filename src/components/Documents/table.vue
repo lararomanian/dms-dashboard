@@ -24,7 +24,12 @@
                             </td>
 
                             <td>
-                                {{ item.description }}
+                                <p v-html="item.description">
+                                </p>
+                            </td>
+
+                            <td>
+                                {{ item.project }}
                             </td>
 
                             <td>

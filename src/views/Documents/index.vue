@@ -39,6 +39,9 @@ export default {
                     heading: "Description",
                 },
                 {
+                    heading: "Project",
+                },
+                {
                     heading: "File",
                 },
                 {
