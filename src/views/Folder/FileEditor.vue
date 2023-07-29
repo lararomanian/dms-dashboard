@@ -3,7 +3,7 @@
       <div class="folder-navigation">
         <router-link
           v-if="currentFolder.parent_id"
-          :to="{ path: `/folder/${currentFolder.parent_id}` }"
+          :to="{ path: `/` }"
           class="back-button"
         >
           <i class="material-icons">arrow_back</i> Back

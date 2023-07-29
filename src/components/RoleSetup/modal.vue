@@ -25,7 +25,7 @@
                         <ErrorSpan :error="errors.permissions" />
                         <br>
                         <div class="col-4 mt-1" v-for="(title, index) in permission_titles " :key="index">
-                            <label for="" style="text-transform: capitalize">{{ title }}</label>
+                            <label for="">{{ translateRole(title) }}</label>
                             <div class="form-check" v-for="(action, i) in actions" :key="i">
                                 <input class="form-check-input" type="checkbox" :value="title + '.' + action"
                                     :id="title + '.' + action" @change="togglePermission(title.concat('.', action))"
@@ -61,6 +61,7 @@
 <script>
 import CreateMixin from "@/mixins/create.vue"
 import ErrorSpan from "@/components/errorspan.vue";
+import { translateRole } from "@/plugins/translateRole";
 
 export default {
     name: "RoleSetUpModal",
@@ -69,7 +70,7 @@ export default {
     props: ['permission_lists', 'permission_titles'],
     data() {
         return {
-            url: 'roles',
+            url: 'rolepermission',
             mode: "",
             actions: ['create', 'update', 'view', 'delete'],
             id: '',
@@ -99,7 +100,6 @@ export default {
             this.mode = "Edit";
         });
     },
-
     watch: {
 
         allowed_permissions(newPermissions) {
@@ -115,6 +115,7 @@ export default {
     },
 
     methods: {
+        translateRole,
         togglePermission(permission) {
             if (this.allowed_permissions.includes(permission)) {
                 this.allowed_permissions = this.allowed_permissions.filter(item => item !== permission)

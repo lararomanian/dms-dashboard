@@ -39,7 +39,7 @@ export default {
 
     methods: {
         async fetchPermissionList() {
-            let uri = process.env.VUE_APP_API_URL + 'roles'
+            let uri = process.env.VUE_APP_API_URL + 'rolepermission/list'
             this.isLoading = true
             try {
                 this.axios.get(uri, { params: this.params }).then(({ data }) => {

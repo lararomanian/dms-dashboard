@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import logo from "../../assets/img//rbb.jpg";
+import logo from "D:/laragon/www/backend-dms/src/assets/img/pdf.png";
 // import Auth from "../../plugins/Auth.js"
 
 export default {

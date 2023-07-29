@@ -23,28 +23,6 @@
                         <ErrorSpan :error="errors.email" />
                     </div>
 
-                    <div class="col-md-12 mb-16">
-                        <label htmlfor="">Password</label>
-                        <div class="form-icon trail">
-                            <input class="form-control" v-if="showPassword" type="text" v-model="item.password" />
-                            <input class="form-control" v-else type="password" v-model="item.password" />
-                            <i :class="{ 'ic-view': showPassword, 'ic-hidden': !showPassword }"
-                                @click="togglePassword('password')"></i>
-                        </div>
-                        <ErrorSpan :error="errors.password" />
-                    </div>
-
-                    <div class="col-md-12 mb-16">
-                        <label htmlfor="">Confirm Password</label>
-                        <div class="form-icon trail">
-                            <input class="form-control" v-if="showPasswordConfirm" type="text"
-                                v-model="item.password_confirmation" />
-                            <input class="form-control" v-else type="password" v-model="item.password_confirmation" />
-                            <i :class="{ 'ic-view': showPasswordConfirm, 'ic-hidden': !showPasswordConfirm }"
-                                @click="togglePassword('password_confirmation')"></i>
-                        </div>
-                    </div>
-
                     <hr>
                     <div class="col-md-12">
                         <button type="button" aria-label="Close" data-bs-dismiss="offcanvas" class="btn btn-red mr-16">

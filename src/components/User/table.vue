@@ -22,19 +22,9 @@
                             <td>
                                 {{ item.email }}
                             </td>
-                            <td>
-                                <div class="badge rounded-pill"
-                                    :class="{ 'bg-red': !item.status, 'bg-green': item.status }">
-                                    {{ item.status ? "Active" : "In-Active" }}
-                                </div>
-                            </td>
+                            
                             <td class="action">
                                 
-                                <button title="Status Toggle" class="btn btn-sm btn-gray" @click="updateStatus(item.id)"
-                                    v-if="$can($route.meta.guard + '.delete')">
-                                    <i class="ic-lock"></i> Change Status
-                                </button>
-
                                 <button title="Change Password" class="btn btn-sm btn-gray" data-bs-toggle="offcanvas"
                                     data-bs-target="#userdetailmodal" aria-controls="offcanvasCreate"
                                     @click.prevent="changePassword(item)" v-if="$can($route.meta.guard + '.update')">

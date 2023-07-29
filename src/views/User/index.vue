@@ -28,17 +28,12 @@ export default {
     data() {
         return {
             tableHeading: [
-                {
+                {   
                     heading: "Name",
                 },
                 {
                     heading: "Email",
                 },
-                {
-                    heading: "Status",
-                },
-                
-                
             ],
         };
     },

@@ -15,7 +15,7 @@ import FileEditor from "../Folder/index.vue";
 import axios from "axios";
 
 export default {
-    name: "Project",
+    name: "MainFolder",
     components: {
         // AbsoluteLayout,
         PageHeader,
@@ -41,6 +41,7 @@ export default {
     computed: {
         project_fetch_id() {
             const required_id = this.$route.params.id;
+            console.log(required_id, "requiiired id")
             return Number(required_id);
         },
     },
@@ -52,6 +53,7 @@ export default {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/folders/${projectId}`);
                 this.project_data = response.data.data;
+                console.log(this.project_data, "project data");
             } catch (error) {
                 console.error(`Failed to fetch folders for project ID ${projectId}`, error);
                 return [];
@@ -60,12 +62,6 @@ export default {
     },
     created() {
         console.log(this.$route.params.id);
-    },
-    watch: {
-        '$route': function (val) {
-            console.log(val);
-            this.fetchFolders(val.params.id);
-        }
     },
 };
 </script>
