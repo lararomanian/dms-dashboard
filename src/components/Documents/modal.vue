@@ -111,6 +111,7 @@ export default {
     name: "DocumentModal",
     mixins: [CreateMixin, MediasMixin, SlugMixin],
     components: { UploadedFile, ErrorSpan, ckeditor: CKEditor.component },
+    props: ['project_id', 'folder_id'],
     data() {
         return {
             url: 'documents',

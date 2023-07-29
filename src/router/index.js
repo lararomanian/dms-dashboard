@@ -12,6 +12,9 @@ import Activity from "@/views/Activity/index.vue";
 import Project from "@/views/Project/index.vue";
 import ProjectFolders from "@/views/ProjectFolders/index.vue";
 import Documents from "@/views/Documents/index.vue";
+import FileEditor from "@/views/Folder/index.vue";
+import FolderItem from "@/views/Folder/FolderItem.vue";
+import DocumentItem from "@/views/Folder/DocumentItem.vue";
 
 import { store } from "../store.js";
 
@@ -105,7 +108,24 @@ const router = new Router({
           component: Documents,
           beforeEnter: ifAuthorized,
           meta: { guard: "project" },
-        }
+        },
+        {
+          path: "/files",
+          name: "FileEditor",
+          component: FileEditor,
+          beforeEnter: ifAuthorized,
+          meta: { guard: "project" },
+        },
+        {
+          path: '/folder/:folderName',
+          component: FolderItem,
+          props: true,
+        },
+        {
+          path: '/document/:documentName',
+          component: DocumentItem,
+          props: true,
+        },
       ],
     },
     {

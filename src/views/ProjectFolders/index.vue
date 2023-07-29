@@ -3,15 +3,15 @@
         <!-- <ProjectModal/> -->
         <page-header heading="Project Folder " action="Add New" toggle="offcanvas" target="#offcanvasCreate"
             :guard="this.$route.meta.guard" @click="setCreateForm" />
-        <Folders :project_data="project_data"></Folders>
         <!-- <ProjectTable  :tableHeading="tableHeading"/> -->
+        <FileEditor :project_fetch_id="project_fetch_id"/>
     </flex-layout>
 </template>
   
 <script>
 import FlexLayout from "@/components/Layout/FlexLayout.vue";
 import PageHeader from "@/components/Utility/PageHeader.vue";
-import Folders from "@/components/ProjectFolders/folders.vue";
+import FileEditor from "../Folder/index.vue";
 import axios from "axios";
 
 export default {
@@ -20,7 +20,7 @@ export default {
         // AbsoluteLayout,
         PageHeader,
         FlexLayout,
-        Folders,
+        FileEditor
         // ProjectTable,
         // ProjectModal
     },
@@ -37,6 +37,12 @@ export default {
                 },
             ],
         };
+    },
+    computed: {
+        project_fetch_id() {
+            const required_id = this.$route.params.id;
+            return Number(required_id);
+        },
     },
     methods: {
         setCreateForm() {
