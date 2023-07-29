@@ -13,7 +13,7 @@
       <i :class="icon"></i>
       {{ action }}
     </button>
-      <DocumentModal/>
+      <DocumentModal :main_folder_id="this.folder.id" :main_project_id="this.folder.project_id"/>
     </div>
   </div>
 </template>

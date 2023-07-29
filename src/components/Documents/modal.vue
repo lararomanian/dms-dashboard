@@ -111,7 +111,7 @@ export default {
     name: "DocumentModal",
     mixins: [CreateMixin, MediasMixin, SlugMixin],
     components: { UploadedFile, ErrorSpan, ckeditor: CKEditor.component },
-    props: ['project_id', 'folder_id'],
+    props: ['main_project_id', 'main_folder_id'],
     data() {
         return {
             url: 'documents',
@@ -139,7 +139,12 @@ export default {
             this.isEdit = false;
             this.item = {
                 status: 0,
+                project_id: this.main_project_id,
+                folder_id: this.main_folder_id,
             };
+            console.log("this.item", this.item)
+            console.log("this.main_project_id", this.main_project_id)
+            console.log("this.main_folder_id", this.main_folder_id)
             this.errors = {};
             this.mode = "Add";
             this.clearselectedFiles();

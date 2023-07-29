@@ -85,7 +85,6 @@ export default {
                 });
         },
         goBack() {
-            // Check if there is a previous folder ID available
             if (this.previousFolderId !== null) {
                 // Fetch the parent folder data using the previous folder ID
                 this.fetchFolderData(this.previousFolderId);
@@ -100,6 +99,8 @@ export default {
                 // Reset the current folder ID to the root folder ID
                 this.currentFolderId = 1;
             }
+            //route to /files
+
         },
     },
 };
