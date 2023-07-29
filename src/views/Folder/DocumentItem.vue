@@ -9,7 +9,7 @@
     </div>
     <button class="download-button" >
       <a
-        :href="'http://127.0.0.1:8000/storage/' + document.documents[0].path"
+        :href="'http://127.0.0.1:8000/api/documents/' + document.id + '/export'"
         target="_blank"
       >
         Download

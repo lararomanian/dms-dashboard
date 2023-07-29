@@ -4,27 +4,35 @@
       <img :src="folderIconPath" alt="Folder Icon" />
     </div>
     <span>{{ folder.name }}</span>
-    <div class="add-new-doc-button">
-      <button v-if="(action != 'null') && $can(guard+'.create')" class="btn btn-sm btn-outline-primary" 
-        :data-bs-toggle="toggle!='null'?toggle:''" 
-        :data-bs-target="target!='null'?target:''"
+    <div class="folder-buttons">
+      <button v-if="action !== 'null' && $can(guard+'.create')" class="btn btn-sm btn-outline-primary" 
+        :data-bs-toggle="toggle !== 'null' ? toggle : ''" 
+        :data-bs-target="target !== 'null' ? target : ''"
         @click="$emit('click')"
       >
-      <i :class="icon"></i>
-      {{ action }}
-    </button>
-      <DocumentModal :main_folder_id="this.folder.id" :main_project_id="this.folder.project_id"/>
+        <i :class="icon"></i>
+        {{ action }}
+      </button>
+      <DocumentModal :main_folder_id="folder.id" :main_project_id="folder.project_id" />
+      <button v-if="$can(guard+'.delete')" class="btn btn-sm btn-outline-danger" @click.stop="$emit('delete-folder')">
+        <i class="ic-trash"></i>
+        Delete
+      </button>
     </div>
+
+    <FolderModal :parent_id="folder.id" :project_id="folder.project_id" />
   </div>
 </template>
 
-<script>  
+<script>
 import DocumentModal from "@/components/Documents/modal.vue";
+import FolderModal from "@/components/Folders/modal.vue";
 
 export default {
   props: ['folder'],
   components: {
     DocumentModal,
+    FolderModal
   },
   methods: {
     handleClick() {
@@ -35,7 +43,7 @@ export default {
       }
     },
     openDocumentModal() {
-      console.log("openDocumentModal")
+      console.log("openDocumentModal");
       this.$root.$emit('CREATE'); // Emit the custom event to open the modal
     },
   },

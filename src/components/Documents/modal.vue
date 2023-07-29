@@ -25,7 +25,7 @@
 
                     <div class="col-md-6 mb-16">
                         <label for="">Project</label>
-                        <select name="project_id" class="form-select" :class="{ 'border-red': errors.project_id }"
+                        <select name="project_id" class="form-select" :class="{ 'border-red': errors.project_id }" disabled 
                             v-model="item.project_id">
                             <option value="" disabled selected>Select Project</option>
                             <option v-for="item in projects" :key="item.id" :value="item.id">{{ item.name }}</option>

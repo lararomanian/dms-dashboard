@@ -2,7 +2,10 @@
     <flex-layout>
         <!-- <page-header heading="Folder" action="Add New" toggle="offcanvas" target="#offcanvasCreate"
             :guard="this.$route.meta.guard"  /> -->
-        <FolderContainer :folders="foldersData" @folder-clicked="openFolder" @back="goBack" />
+        <FolderContainer v-if="foldersData.length > 0" :folders="foldersData" @folder-clicked="openFolder" @back="goBack" />
+        <div v-else>
+            <p class="text-center">No folders found.</p>
+        </div>
     </flex-layout>
 </template>
   
@@ -19,7 +22,7 @@ export default {
         // AbsoluteLayout,
         // PageHeader,
         FlexLayout,
-        FolderContainer
+        FolderContainer,
     },
     data() {
         return {

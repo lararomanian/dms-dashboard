@@ -14,7 +14,7 @@
             <button class="btn btn-sm btn-outline-danger">
               <i class="ic-checklist"></i>Delete Folder
             </button>
-            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate" class="btn btn-sm btn-secondary"
+            <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreateFolder" class="btn btn-sm btn-secondary"
               action="Create Button" :guard="this.$route.meta.guard" @click="setCreateForm">
               <i class="ic-plus"></i> Add Folder
             </button>
@@ -40,6 +40,8 @@
       <div class="documents-column">
         <DocumentContainer v-if="showDocumentContainer" :documents="selectedFolder.documents" />
       </div>
+
+
     </div>
   </div>
 </template>
