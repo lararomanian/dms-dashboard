@@ -61,12 +61,12 @@ export default {
           hasSub: true,
           subMenu: [], // Initialize the subMenu array to an empty array
         },
-        {
-          title: "Document Management",
-          hasSub: false,
-          link: "/documents",
-          guard: "project",
-        },
+        // {
+        //   title: "Document Management",
+        //   hasSub: false,
+        //   link: "/documents",
+        //   guard: "project",
+        // },
         {
           title: "Role Management",
           name: "role_management",

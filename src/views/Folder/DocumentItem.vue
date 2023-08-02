@@ -14,21 +14,32 @@
         </a>
       </button>
 
-      <div class="delete-button" v-if="$can('documents.delete')" style="width: auto;">
-        <button >
-          <i class="ic-delete"  @click="deleteDocument(this.folderr)"></i>
+      <button title="Edit" class="btn btn-sm btn-gray" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate"
+        aria-controls="offcanvasCreate" @click.prevent="setEditData(document)" v-if="$can('documents.update')">
+        <i class="ic-edit"></i>
+      </button>
+
+      <div class="delete-button" v-if="$can('documents.delete')">
+        <button>
+          <i class="ic-delete" @click="deleteDocument(this.folderr)"></i>
         </button>
       </div>
     </div>
+    <DocumentModal />
   </div>
 </template>
 
 <script>
 
 // import axios from 'axios';
+import DocumentModal from '@/components/Documents/modal.vue';
+
 
 export default {
   props: ['document'],
+  components: {
+    DocumentModal,
+  },
   computed: {
     getIconPath() {
       const fileExtension = this.getFileExtension(this.document);
@@ -57,9 +68,9 @@ export default {
           return 'pdf'; // Fallback for unknown extensions
       }
     },
-   
+
     deleteDocument(data) {
-      
+
       console.log(data, "doc id");
 
       // axios.delete(`http://127.0.0.1:8000/api/documents/delete/${this.document.id}`).then((response) => {
@@ -78,7 +89,10 @@ export default {
       //     position: "bottom-right",
       //   });
       // });
-    }
+    },
+    setEditData(item,editMode = true) {
+        this.$root.$emit("EDIT", item,editMode);
+    },
   },
 };
 </script>
@@ -160,6 +174,27 @@ button {
 
 button:hover {
   background-color: #cc0000;
+}
+
+.edit-button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #28a745;
+  /* Green color for the edit button */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+  /* Darker green on hover */
+}
+
+.edit-button:focus {
+  outline: none;
 }
 </style>
 <!-- <style>

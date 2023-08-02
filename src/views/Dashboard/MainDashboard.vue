@@ -73,7 +73,7 @@ export default {
 
 .card-dashboard {
   padding: 1.5rem;
-  background-color: #4e73df;
+  background-color: #053f88;
   border-radius: 0.35rem;
   color: #fff;
   min-height: 150px;

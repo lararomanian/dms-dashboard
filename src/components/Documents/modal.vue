@@ -142,9 +142,6 @@ export default {
                 project_id: this.main_project_id,
                 folder_id: this.main_folder_id,
             };
-            console.log("this.item", this.item)
-            console.log("this.main_project_id", this.main_project_id)
-            console.log("this.main_folder_id", this.main_folder_id)
             this.errors = {};
             this.mode = "Add";
             this.clearselectedFiles();

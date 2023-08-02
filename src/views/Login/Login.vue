@@ -4,7 +4,7 @@
       <div class="app-flex-layout flex-center-center">
         <div class="login-card d-flex">
           <div class="login-greeting w-50">
-            <div class="logo img"><img :src="logo" alt="" /></div>
+            <div class="logo img"><img :src="logo" alt="" style="width : 50%; height: 50%;"/></div>
             <div class="border-bottom border-blue400 my-24"></div>
             <h3 class="text-welcome fw-bold mb-12">Welcome to DMS ( Document Management System )</h3>
             <p>Manage your service requests by logging into the admin portal</p>
