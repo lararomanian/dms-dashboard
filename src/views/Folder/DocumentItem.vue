@@ -1,278 +1,145 @@
 <template>
   <div class="document-item">
     <div class="document-icon">
-      <img :src="getIconPath" :alt="document.title" class="img-small" />
+      <i class="ic-document"></i>
     </div>
-    <div class="document-details">
-      <span class="document-title">{{ document.title }}</span>
-      <div class="document-description" v-html="document.description"></div>
-    </div>
-    <div class="buttons-container">
-      <button class="download-button" @click="downloadDocument">
+    <div class="document-name">{{ document.title }}</div>
+    <div class="document-size">{{ formatSize(document.documents[0].size) }}</div>
+    <div class="document-actions flex-column">
+      <button class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreateDocument"
+        aria-controls="offcanvasCreate" @click.prevent="setEditData(document)">
+        <i class="ic-edit"></i> Edit
+      </button>
+      <button class="btn btn-sm btn-danger" @click="deleteDocument">
+        <i class="ic-trash"></i> Delete
+      </button>
+      <button class="btn btn-sm btn-success btn-download">
         <a :href="'http://127.0.0.1:8000/api/documents/' + document.id + '/export'" target="_blank">
-          Download
-        </a>
+        <i class="ic-download">
+        </i> 
+      </a>
       </button>
-
-      <button title="Edit" class="btn btn-sm btn-gray" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate"
-        aria-controls="offcanvasCreate" @click.prevent="setEditData(document)" v-if="$can('documents.update')">
-        <i class="ic-edit"></i>
-      </button>
-
-      <div class="delete-button" v-if="$can('documents.delete')">
-        <button>
-          <i class="ic-delete" @click="deleteDocument(this.folderr)"></i>
-        </button>
-      </div>
     </div>
-    <DocumentModal />
   </div>
 </template>
 
 <script>
 
-// import axios from 'axios';
-import DocumentModal from '@/components/Documents/modal.vue';
-
 
 export default {
-  props: ['document'],
-  components: {
-    DocumentModal,
-  },
-  computed: {
-    getIconPath() {
-      const fileExtension = this.getFileExtension(this.document);
-      const icon = this.getIconByExtension(fileExtension);
-      return require(`@/assets/img/${icon}.png`);
+  props: {
+    document: {
+      type: Object,
+      required: true,
     },
   },
   methods: {
-    getFileExtension(fileName) {
-      return fileName.documents[0].extension;
+    formatSize(size) {
+      if (size < 1024) return `${size} B`;
+      else if (size < 1048576) return `${(size / 1024).toFixed(2)} KB`;
+      else return `${(size / 1048576).toFixed(2)} MB`;
     },
-    getIconByExtension(extension) {
-      switch (extension) {
-        case 'pdf':
-          return 'pdf';
-        case 'doc':
-        case 'docx':
-          return 'file';
-        case 'jpg':
-        case 'jpeg':
-        case 'png':
-        case 'gif':
-          return 'image';
-        // Add more cases for other file types as needed
-        default:
-          return 'pdf'; // Fallback for unknown extensions
-      }
+    editDocument() {
+      this.$emit('edit-document', this.document);
     },
-
-    deleteDocument(data) {
-
-      console.log(data, "doc id");
-
-      // axios.delete(`http://127.0.0.1:8000/api/documents/delete/${this.document.id}`).then((response) => {
-      //   console.log(response);
-      //   this.$root.$emit('REFRESH');
-      //   this.$toast.success(response.data.message, {
-      //     position: "bottom-right",
-      //   });
-
-      //   this.$router.push({
-      //     path: `/`,
-      //   });
-      // }).catch((error) => {
-      //   console.log(error);
-      //   this.$toast.error(error.response.data.message, {
-      //     position: "bottom-right",
-      //   });
-      // });
+    deleteDocument() {
+      this.$emit('delete-document', this.document.id);
+    },
+    downloadDocument() {
+      this.$emit('download-document', this.document.id);
     },
     setEditData(item,editMode = true) {
         this.$root.$emit("EDIT", item,editMode);
     },
   },
+  components: {
+  },
 };
 </script>
 
+<style>
+  /* The styles for the document item */
+  .document-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    min-width: 150px;
+    background-color: #fff;
+  }
 
-<style scoped>
-.document-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+  /* The document icon styles */
+  .document-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: #555;
+  }
 
-.document-item:hover {
-  background-color: #f0f0f0;
-}
+  /* The document name styles */
+  .document-name {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 4px;
+  }
 
-.img-small {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-}
+  /* The document size styles */
+  .document-size {
+    font-size: 12px;
+    color: #888;
+  }
 
-.document-details {
-  flex: 1;
-}
+  /* The document actions container styles */
+  .document-actions {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-.document-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
+  /* The button styles */
+  .document-actions>button {
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s ease;
+  }
 
-.document-description {
-  margin-top: 4px;
-  color: #666;
-}
+  /* The primary button styles */
+  .document-actions>button.btn-primary {
+    background-color: #007bff;
+  }
 
-.buttons-container {
-  display: flex;
-  align-items: center;
-}
+  /* The danger button styles */
+  .document-actions>button.btn-danger {
+    background-color: #dc3545;
+  }
 
-.download-button {
-  padding: 8px 12px;
-  margin-right: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+  /* The success button styles */
+  .document-actions>button.btn-success {
+    background-color: #28a745;
+  }
 
-.download-button:hover {
-  background-color: #0056b3;
-}
+  /* The hover effect for all buttons */
+  .document-actions>button:hover {
+    background-color: #444;
+  }
 
-.download-button:focus {
-  outline: none;
-}
+  /* The link style for the download button */
+  .document-actions>button.btn-download {
+    background-color: #fff;
+    color: #007bff;
+  }
 
-.delete-button {
-  display: flex;
-  align-items: center;
-}
-
-button {
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #cc0000;
-}
-
-.edit-button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  background-color: #28a745;
-  /* Green color for the edit button */
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.edit-button:hover {
-  background-color: #218838;
-  /* Darker green on hover */
-}
-
-.edit-button:focus {
-  outline: none;
-}
+  /* The hover effect for the download button */
+  .document-actions>button.btn-download:hover {
+    background-color: #f5f5f5;
+  }
 </style>
-<!-- <style>
-.document-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.document-item:hover {
-  background-color: #f0f0f0;
-}
-
-.img-small {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-}
-
-.document-details {
-  flex: 1;
-}
-
-.document-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
-.document-description {
-  margin-top: 4px;
-  color: #666;
-}
-
-.download-button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.download-button:hover {
-  background-color: #0056b3;
-}
-
-.download-button:focus {
-  outline: none;
-}
-
-
-.document-info {
-  flex: 1;
-  padding-right: 8px;
-}
-
-.delete-button {
-  display: flex;
-  align-items: center;
-}
-
-button {
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #cc0000;
-}
-</style> -->

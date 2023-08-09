@@ -1,35 +1,21 @@
 <template>
-  <div class="folder-item" @click="handleClick">
+  <div class="folder-item" @click="handleClick(folder)">
     <div class="folder-icon">
-      <img :src="folderIconPath" alt="Folder Icon" />
+      <img :src="folderIconPath" alt="Folder Icon">
     </div>
-    <span>{{ folder.name }}</span>
-    <div class="folder-buttons">
-      <DocumentModal :main_folder_id="folder.id" :main_project_id="folder.project_id" />
-    </div>
-
+    <div>{{ folder.name }}</div>
   </div>
 </template>
 
 <script>
-import DocumentModal from "@/components/Documents/modal.vue";
 
 export default {
-  props: ['folder'],
-  components: {
-    DocumentModal,
+  props: {
+    folder: Object,
   },
   methods: {
-    handleClick() {
-      if (this.folder.documents && this.folder.documents.length > 0) {
-        this.$emit('folder-with-documents-clicked', this.folder);
-      } else {
-        this.$emit('folder-clicked', this.folder);
-      }
-    },
-    openDocumentModal() {
-      console.log("openDocumentModal");
-      this.$root.$emit('CREATE'); // Emit the custom event to open the modal
+    handleClick(folder) {
+      this.$emit('folder-clicked', folder);
     },
   },
   computed: {
@@ -40,4 +26,29 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* Folder and document item styles */
+.folder-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.folder-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.folder-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.folder-item:hover {
+  background-color: #f0f0f0;
+}
+</style>

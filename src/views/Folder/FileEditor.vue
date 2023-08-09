@@ -6,7 +6,7 @@
           :to="{ path: `/` }"
           class="back-button"
         >
-          <i class="material-icons">arrow_back</i> Back
+          <i class="material-icons">arrow_back</i> Back123
         </router-link>
         <div class="folder-container">
           <FolderItem

@@ -1,5 +1,5 @@
 <template>
-    <div class="offcanvas offcanvas-end offcanvas-01" id="offcanvasCreate" tabindex="-1"
+    <div class="offcanvas offcanvas-end offcanvas-01" id="offcanvasCreateDocument" tabindex="-1"
         aria-labelledby="offcanvasCreateLabel">
         <div class="offcanvas-header">
             <h5 class="text-dark" id="offcanvasCreateLabel">{{ mode }} Documents</h5>
@@ -63,7 +63,7 @@
                         }}</span>
                     </div>
 
-                    <div class="row mb-16">
+                    <div class="row mb-16" v-if="mode != 'Edit'">
                         <div class="col-md-6 ">
                             <label for="">File</label>
                             <UploadedFile :file='storage + item.documents' :clearUploadedFile="clearUploadedFile"
@@ -178,7 +178,10 @@ export default {
             } catch (error) {
                 console.log(error)
             }
-        }
+        },
+        createSlug(title) {
+            this.item.slug = this.slugify(title);
+        },
     },
 };
 </script>

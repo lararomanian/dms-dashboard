@@ -1,4 +1,7 @@
 <script>
+
+import DOMPurify from 'dompurify';
+
 export default {
     name: 'CreateMixin',
     data() {
@@ -15,6 +18,14 @@ export default {
         submitForm() {
         let uri = this.api_url+this.url+(this.isEdit?'/update':'/store');
         this.isLoading = true;
+
+        if(this.item.ocr_text) {
+          const ocrText = this.item.ocr_text;
+          const sanitizedOcrText = DOMPurify.sanitize(ocrText);
+          const plainText = sanitizedOcrText.replace(/<[^>]+>/g, '');
+          this.item.ocr_text = plainText;
+        }
+
         this.axios.post(uri, this.item,{
           headers: {
             'Content-Type': 'multipart/form-data'
