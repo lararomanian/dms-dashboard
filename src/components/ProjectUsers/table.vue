@@ -26,8 +26,10 @@
   
                 <!-- Display Project Users -->
                 <td>
-                  <span v-for="user in item.project_users" :key="user.index">
-                    {{ user.name }}, 
+                  <span v-for="user in item.project_users" :key="user.index" class="btn btn-secondary mr-2 rounded-pill badge" >
+                    <span>
+                      {{ user.name }}
+                    </span>  
                   </span>
                 </td>
   
@@ -116,8 +118,8 @@ export default {
 
     data() {
         return {
-            url: 'usermamangement',
-            fetch_module: 'FETCH_PROJECT_USERS',
+            url: 'projects/user/total',
+            fetch_module: 'FETCH_PROEJCT_USERS',
             tableData: [],
             project_info: {},
         };
@@ -130,7 +132,7 @@ export default {
 
         fetchUserData() {
             this.isLoading = true;
-            axios.get(this.api_url + "projects/user/all",)
+            axios.get(this.api_url + "projects/user/total",)
                 .then((response) => {
                    console.log(response.data.data);
                    this.project_info = response.data.data;

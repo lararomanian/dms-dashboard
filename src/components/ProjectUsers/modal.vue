@@ -13,7 +13,7 @@
                 <form class="row align-end" v-on:submit.prevent="submitForm" enctype="multipart/form-data">
 
 
-                    <div class="col-md-12 mb-16">
+                    <!-- <div class="col-md-12 mb-16">
                         <label for="">User</label>
                         <select name="project_id" class="form-select" :class="{ 'border-red': errors.user_id }"
                             v-model="item.user_id">
@@ -23,7 +23,7 @@
                         <span v-if="errors.user_id" class="text-danger mt-2 font-size-13">{{
                             errors.user_id
                         }}</span>
-                    </div>
+                    </div> -->
 
                     <div class="col-md-12 mb-16">
                         <label for="">Project</label>
@@ -35,6 +35,13 @@
                         <span v-if="errors.project_id" class="text-danger mt-2 font-size-13">{{
                             errors.project_id
                         }}</span>
+                    </div>
+
+                    <div class="col-md-12 mb-16">
+                        <label for="">Users</label>
+                        <treeselect :multiple="true" :options="users" placeholder="Select the users"
+                            v-model="selectedUserIds" />
+                        <treeselect-value :value="users" />
                     </div>
 
                     <hr>
@@ -60,28 +67,27 @@
 import CreateMixin from "@/mixins/create.vue"
 import MediasMixin from "@/mixins/MediasMixin.vue";
 import SlugMixin from "@/mixins/SlugMixin.vue";
+// import { createMixin, MediasMixin, SlugMixin } from "@/mixins";
 
 export default {
     name: "ProjectUsersModal",
     mixins: [CreateMixin, MediasMixin, SlugMixin],
-    components: {},
     data() {
         return {
-            url: 'usermamangement',
             mode: '',
             isLoading: false,
             item: {},
             isEdit: false,
             errors: {},
             method: "",
-            projects: [],
-            users: [],
+            selectedUserIds: [],
+            projects: {},
+            users: {},
             api_url: process.env.VUE_APP_API_URL,
             storage: process.env.VUE_APP_API_STORAGE,
             fetch_module: 'FETCH_PROEJCT_USERS'
         };
     },
-
     mounted() {
         this.fetchDocuments();
         this.fetchUsers();
@@ -102,10 +108,139 @@ export default {
             this.item = { ...data };
             this.clearselectedFiles();
             this.mode = "Edit";
+            this.formatEditData(this.item);
+            console.log(this.item, "edit");
+        });
+    },
+    methods: {
+        async submitProjectUserForm() {
+            let uri = this.api_url + 'projects/add-user/';
+            this.isLoading = true;
+
+            try {
+                const response = await this.axios.post(uri, {
+                    project_id: this.item.project_id,
+                    user_id: this.selectedUserIds,
+                });
+
+                console.log(response.data);
+                this.isLoading = false;
+                this.$root.$emit(this.fetch_module);
+
+                this.$refs.btnClose.click();
+                this.fetchDocuments();
+                this.fetchUsers();
+                // Update projects/users arrays directly instead of location.reload()
+            } catch (error) {
+                console.error(error);
+                this.isLoading = false;
+                // Handle error feedback to user
+            }
+        },
+        async fetchDocuments() {
+            let uri = this.api_url + 'documents/all';
+            try {
+                const { data } = await this.axios.get(uri);
+                this.projects = data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async fetchUsers() {
+            let uri = this.api_url + 'documents/users';
+            try {
+                const { data } = await this.axios.get(uri);
+                this.users = data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        formatEditData(data) {
+
+            this.selectedUserIds = data.project_users.map((item) => {
+                return item.id;
+            });
+
+            this.item.project_id = data.id;
+        }
+    },
+};
+</script>
+
+<!-- <script>
+import CreateMixin from "@/mixins/create.vue"
+import MediasMixin from "@/mixins/MediasMixin.vue";
+import SlugMixin from "@/mixins/SlugMixin.vue";
+
+export default {
+    name: "ProjectUsersModal",
+    mixins: [CreateMixin, MediasMixin, SlugMixin],
+    components: {},
+    data() {
+        return {
+            mode: '',
+            isLoading: false,
+            item: {},
+            isEdit: false,
+            errors: {},
+            method: "",
+            value: [],
+            projects: {},
+            users: {},
+            api_url: process.env.VUE_APP_API_URL,
+            storage: process.env.VUE_APP_API_STORAGE,
+            fetch_module: 'FETCH_PROEJCT_USERS'
+        };
+    },
+
+    mounted() {
+
+        this.fetchDocuments();
+        this.fetchUsers();
+
+        this.$root.$on('CREATE', () => {
+            this.isEdit = false;
+            this.item = {
+                status: 0,
+            };
+            this.errors = {};
+            this.mode = "Add";
+            this.clearselectedFiles();
+        });
+
+        this.$root.$on('EDIT', (data) => {
+            this.isEdit = true;
+            this.errors = {};
+            this.item = { ...data };
+            this.clearselectedFiles();
+            this.mode = "Edit";
+            this.formatEditData(this.item);
+            console.log(this.item, "edit");
         });
 
     },
     methods: {
+
+        submitProjectUserForm() {
+
+            let uri = this.api_url + 'projects/add-user/';
+            try {
+                this.isLoading= true;
+
+                this.axios.post(uri, {
+                    project_id: this.item.project_id,
+                    user_id: this.value,
+                })
+                    .then((response) => {
+                        console.log(response);
+                        this.isLoading = false;
+                        this.$root.$emit(this.fetch_module);
+                        location.reload();
+                    });
+            } catch (error) {
+                console.log(error)
+            }
+        },
 
         fetchDocuments() {
             let uri = this.api_url + 'documents/all';
@@ -119,7 +254,7 @@ export default {
         },
 
         fetchUsers() {
-            let uri = this.api_url + 'usermamangement/all';
+            let uri = this.api_url + 'documents/users';
             try {
                 this.axios.get(uri).then(({ data }) => {
                     this.users = data.data;
@@ -129,21 +264,15 @@ export default {
             }
         },
 
-        submitProjectUserForm() {
+        formatEditData(data) {
 
-            let uri = this.api_url + 'projects/add-user/' + this.item.project_id;
-            try {
-                this.axios.post(uri, {
-                        user_id: this.item.user_id,
-                })
-                    .then((response) => {
-                        console.log(response);  
-                    });
-            } catch (error) {
-                console.log(error)
-            }
+            this.value = data.project_users.map((item) => {
+                return item.id;
+            });
+
+            this.item.project_id = data.id;
         }
     },
 };
-</script>
+</script> -->
 

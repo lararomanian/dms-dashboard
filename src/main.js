@@ -23,6 +23,10 @@ Vue.use(Toast);
 import Permissions from "./mixins/Permissions.vue";
 Vue.mixin(Permissions);
 
+import treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+Vue.component("treeselect", treeselect);
+
 
 Vue.component("paginate", Paginate);
 

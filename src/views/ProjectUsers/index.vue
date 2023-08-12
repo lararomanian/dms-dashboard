@@ -1,10 +1,10 @@
 <template>
     <flex-layout>
-        <ProjectUsersModal/>
+        <ProjectUsersModal />
         <page-header heading="Project Users" action="Add New" toggle="offcanvas" target="#offcanvasCreate"
             :guard="this.$route.meta.guard" @click="setCreateForm" />
 
-        <ProjectUsersTable  :tableHeading="tableHeading"/>
+        <ProjectUsersTable :tableHeading="tableHeading" />
     </flex-layout>
 </template>
   
@@ -27,7 +27,8 @@ export default {
             link_types: {},
             menu_types: {},
             parents: {},
-
+            api_url: process.env.VUE_APP_API_URL,
+            storage: process.env.VUE_APP_API_STORAGE,
             tableHeading: [
                 {
                     heading: "Title",
@@ -42,6 +43,8 @@ export default {
         setCreateForm() {
             this.$root.$emit('CREATE');
         },
+    },
+    mounted() {
     }
 };
 </script>
